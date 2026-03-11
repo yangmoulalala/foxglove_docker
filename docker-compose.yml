@@ -1,0 +1,21 @@
+services:
+  # Foxglove 网页版 UI
+  foxglove-ui:
+    image: husarion/foxglove:latest
+    container_name: foxglove_ui
+    network_mode: host
+    restart: always
+
+  # Foxglove ROS 2 Bridge
+  foxglove-bridge:
+    image: husarion/foxglove-bridge:humble-0.7.7-20240708
+    container_name: foxglove_bridge
+    network_mode: host
+    environment:
+      - FASTDDS_BUILTIN_TRANSPORTS=UDPv4
+      - ROS_DOMAIN_ID=0
+    # 自动执行 source 并启动 launch 文件
+    command: >
+      bash -c "source /ros2_ws/install/local_setup.bash && 
+               ros2 launch foxglove_bridge foxglove_bridge_launch.xml"
+    restart: always
