@@ -13,10 +13,11 @@ services:
     network_mode: host
     environment:
       - FASTDDS_BUILTIN_TRANSPORTS=UDPv4
-      - ROS_DOMAIN_ID=1
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0} 
     # 自动执行 source 并启动 launch 文件
     command: >
         bash -c "source /ros2_ws/install/local_setup.bash &&
            export ROS_DOMAIN_ID=$ROS_DOMAIN_ID &&
            ros2 launch foxglove_bridge foxglove_bridge_launch.xml"
     restart: always
+
